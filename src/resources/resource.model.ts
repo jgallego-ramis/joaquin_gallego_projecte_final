@@ -1,3 +1,11 @@
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
+import { User } from '../users/user.model';
 export const RESOURCE_TYPES = [
   'laptop',
   'room',
@@ -9,11 +17,24 @@ export const RESOURCE_STATUSES = ['available', 'assigned'] as const;
 export type ResourceType = (typeof RESOURCE_TYPES)[number];
 export type ResourceStatus = (typeof RESOURCE_STATUSES)[number];
 
-export interface Resource {
-  id: number;
-  name: string;
-  type: ResourceType;
-  status: ResourceStatus;
-  location: string;
-  createdAt: string;
+@Entity()
+export class Resource {
+  @PrimaryGeneratedColumn()
+  id!: number;
+  @Column()
+  name!: string;
+  @Column()
+  type!: ResourceType;
+  @Column()
+  status!: ResourceStatus;
+  @Column()
+  location!: string;
+  @Column()
+  createdAt!: string;
+  @Column({ nullable: true })
+  assignedToUserId!: number | null;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'assignedToUserId' })
+  assignedToUser?: User | null;
 }
