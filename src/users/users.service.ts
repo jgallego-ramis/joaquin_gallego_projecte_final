@@ -15,6 +15,14 @@ export class UsersService {
       active: true,
       createdAt: new Date().toISOString(),
     },
+    {
+      id: 2,
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: 'admin',
+      active: true,
+      createdAt: new Date().toISOString(),
+    },
   ];
 
   findAll(query: FindUsersQueryDto): User[] {
